@@ -28,18 +28,8 @@ or one of its dependencies. The system cannot find the file specified.
 3. Copy the two .dll files found in Plugins in the extracted folder to your musicbee plugins folder
 4. Open a command prompt window and navigate to the MBCCRules folder in the extracted zip
 5. Run the .exe from the command prompt passing in the port you wish to use eg. ``MBCCRules.exe 8080``
-
 The ``MBCCRules.exe`` requires admin privileges, creates an inbound firewall rule for you local network and runs the following command: ``netsh http add urlacl url=http://*:[PORT]/ user=Everyone`` which allows the chromecast to connect to your PC by it's IP
-
-# Setup
-**PLEASE READ CAREFULLY**
-
-1. Go to Edit -> Edit Preferences -> Plugins -> Click the "Settings" button under Musicbee Chromecast
-2. Enter a web server port. Use the same port you used for the ``MBCCRules.exe`` NOTE: you must choose a port between 1025-65535 (I recommend 8080)
-4. Click save, and restart musicbee
-5. Right-click the toolbar (or on the "Arrange Panels") icon and click "Configure Toolbar"
-6. Add a new Toolbar button with an icon of your choosing, or simply type in "Chromecast" for example. Under the "Command" dropdown, choose "Chromecast". Then click update.
-7. Add the following settings to MusicBee.exe.config in section <runtime>
+6. Add the following settings to MusicBee.exe.config in section <runtime>
 ```xml
     <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
       <dependentAssembly>
@@ -71,6 +61,16 @@ The ``MBCCRules.exe`` requires admin privileges, creates an inbound firewall rul
       </dependentAssembly>
     </assemblyBinding>
 ```
+
+# Setup
+**PLEASE READ CAREFULLY**
+
+1. Go to Edit -> Edit Preferences -> Plugins -> Click the "Settings" button under Musicbee Chromecast
+2. Enter a web server port. Use the same port you used for the ``MBCCRules.exe`` NOTE: you must choose a port between 1025-65535 (I recommend 8080)
+4. Click save, and restart musicbee
+5. Right-click the toolbar (or on the "Arrange Panels") icon and click "Configure Toolbar"
+6. Add a new Toolbar button with an icon of your choosing, or simply type in "Chromecast" for example. Under the "Command" dropdown, choose "Chromecast". Then click update.
+
 # How to Use
 The plugin will find all available devices/speaker groups you've created. To use the plugin, click the Toolbar Icon/text you created in the previous steps, a window with all the available devices will pop up. Simply choose one you want to connect to and it should connect successfully. You can go to Tools -> MB Chromecast -> Check status, to see if everything is running. 
 
