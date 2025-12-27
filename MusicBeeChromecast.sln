@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30011.22
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11312.210 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpDll", "CSharpDll.csproj", "{F5D46BA1-6F21-40EF-9695-46105CCACD08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicBeeChromecast", "MusicBeeChromecast.csproj", "{F5D46BA1-6F21-40EF-9695-46105CCACD08}"
 EndProject
 Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "MusicBee", "E:\Users\Troy\Desktop\MusicbeePortable\MusicBee\MusicBee.exe", "{359FF0BF-12BB-4DF4-B550-D68FFA9D1E9C}"
 	ProjectSection(DebuggerProjectSystem) = preProject
@@ -17,46 +17,49 @@ Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "MusicBee", "E:\Users\Troy\D
 		UseLegacyDebugEngines = No
 		LaunchSQLEngine = No
 		AttachLaunchAction = No
+		IORedirection = Auto
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBCCRules", "MBCCRules\MBCCRules.csproj", "{348DC349-4DA9-4AF6-BA4F-A65BE8C10A86}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleCast", "GoogleCast\GoogleCast.csproj", "{A17F749E-C883-458B-AB82-57B49DDC4D73}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F5D46BA1-6F21-40EF-9695-46105CCACD08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5D46BA1-6F21-40EF-9695-46105CCACD08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5D46BA1-6F21-40EF-9695-46105CCACD08}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F5D46BA1-6F21-40EF-9695-46105CCACD08}.Debug|x64.Build.0 = Debug|Any CPU
 		{F5D46BA1-6F21-40EF-9695-46105CCACD08}.Debug|x86.ActiveCfg = Debug|x86
 		{F5D46BA1-6F21-40EF-9695-46105CCACD08}.Debug|x86.Build.0 = Debug|x86
 		{F5D46BA1-6F21-40EF-9695-46105CCACD08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5D46BA1-6F21-40EF-9695-46105CCACD08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5D46BA1-6F21-40EF-9695-46105CCACD08}.Release|x64.ActiveCfg = Release|Any CPU
+		{F5D46BA1-6F21-40EF-9695-46105CCACD08}.Release|x64.Build.0 = Release|Any CPU
 		{F5D46BA1-6F21-40EF-9695-46105CCACD08}.Release|x86.ActiveCfg = Release|x86
 		{F5D46BA1-6F21-40EF-9695-46105CCACD08}.Release|x86.Build.0 = Release|x86
 		{359FF0BF-12BB-4DF4-B550-D68FFA9D1E9C}.Debug|Any CPU.ActiveCfg = Release|x86
+		{359FF0BF-12BB-4DF4-B550-D68FFA9D1E9C}.Debug|x64.ActiveCfg = Debug|x64
 		{359FF0BF-12BB-4DF4-B550-D68FFA9D1E9C}.Debug|x86.ActiveCfg = Release|x86
 		{359FF0BF-12BB-4DF4-B550-D68FFA9D1E9C}.Release|Any CPU.ActiveCfg = Release|x86
+		{359FF0BF-12BB-4DF4-B550-D68FFA9D1E9C}.Release|x64.ActiveCfg = Release|x64
 		{359FF0BF-12BB-4DF4-B550-D68FFA9D1E9C}.Release|x86.ActiveCfg = Release|x86
 		{348DC349-4DA9-4AF6-BA4F-A65BE8C10A86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{348DC349-4DA9-4AF6-BA4F-A65BE8C10A86}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{348DC349-4DA9-4AF6-BA4F-A65BE8C10A86}.Debug|x64.Build.0 = Debug|Any CPU
 		{348DC349-4DA9-4AF6-BA4F-A65BE8C10A86}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{348DC349-4DA9-4AF6-BA4F-A65BE8C10A86}.Debug|x86.Build.0 = Debug|Any CPU
 		{348DC349-4DA9-4AF6-BA4F-A65BE8C10A86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{348DC349-4DA9-4AF6-BA4F-A65BE8C10A86}.Release|x64.ActiveCfg = Release|Any CPU
+		{348DC349-4DA9-4AF6-BA4F-A65BE8C10A86}.Release|x64.Build.0 = Release|Any CPU
 		{348DC349-4DA9-4AF6-BA4F-A65BE8C10A86}.Release|x86.ActiveCfg = Release|Any CPU
 		{348DC349-4DA9-4AF6-BA4F-A65BE8C10A86}.Release|x86.Build.0 = Release|Any CPU
-		{A17F749E-C883-458B-AB82-57B49DDC4D73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A17F749E-C883-458B-AB82-57B49DDC4D73}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A17F749E-C883-458B-AB82-57B49DDC4D73}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A17F749E-C883-458B-AB82-57B49DDC4D73}.Debug|x86.Build.0 = Debug|Any CPU
-		{A17F749E-C883-458B-AB82-57B49DDC4D73}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A17F749E-C883-458B-AB82-57B49DDC4D73}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A17F749E-C883-458B-AB82-57B49DDC4D73}.Release|x86.ActiveCfg = Release|Any CPU
-		{A17F749E-C883-458B-AB82-57B49DDC4D73}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

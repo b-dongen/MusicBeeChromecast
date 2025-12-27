@@ -1,22 +1,20 @@
-﻿using GoogleCast;
-using GoogleCast.Channels;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Sharpcaster;
+using Sharpcaster.Models;
 
 namespace MusicBeePlugin
 {
     public partial class ChromecastPanel : Form
     {
         private Color backgroundColor { get; set; }
-        public IMediaChannel ChromecastMediaChannel { get; set; } = null;
-        //public Sender ChromecastSender { get; set; } = null;
+
+        public ChromecastClient ChromecastClient { get; set; } = null;
         public bool Disconnect { get; set; } = false;
 
         public ChromecastPanel(Color color)
@@ -27,16 +25,15 @@ namespace MusicBeePlugin
 
         private async void ChromecastPanel_Load(object sender, EventArgs e)
         {
-
             var contrastColor = ContrastColor(backgroundColor);
             this.BackColor = backgroundColor;
             this.closeText.ForeColor = contrastColor;
             this.devicesText.ForeColor = contrastColor;
 
+            var locator = new ChromecastLocator();
+            var receivers = (await locator.FindReceiversAsync(TimeSpan.FromSeconds(5)))?.ToList() ?? new List<ChromecastReceiver>();
 
-            IEnumerable<IReceiver> receiver = await new DeviceLocator().FindReceiversAsync();
-
-            if (receiver.Count() == 0 )
+            if (receivers.Count == 0)
             {
                 Button b = new Button
                 {
@@ -46,69 +43,59 @@ namespace MusicBeePlugin
                     Text = "No Devices",
                     AutoSize = false,
                     Width = 200,
-
                 };
-                b.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+                b.FlatAppearance.MouseOverBackColor = Color.Transparent;
                 b.FlatAppearance.BorderColor = backgroundColor;
                 flowLayoutPanel1.Controls.Add(b);
+                return;
             }
 
-            foreach (var x in receiver)
+            foreach (var device in receivers)
             {
                 Button b = new Button
                 {
                     BackColor = Color.Transparent,
                     ForeColor = ContrastColor(backgroundColor),
                     FlatStyle = FlatStyle.Flat,
-                    Text = x.FriendlyName,
+                    Text = device.Name,
                     AutoSize = false,
                     Width = 200,
-
                 };
 
-                b.Click +=
-                    new EventHandler((s, e2) => MyButtonHandler(s, e, receiver));
+                b.Click += new EventHandler((s, e2) => MyButtonHandler(s, e2, receivers));
 
-                b.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+                b.FlatAppearance.MouseOverBackColor = Color.Transparent;
                 b.FlatAppearance.BorderColor = backgroundColor;
-                
+
                 flowLayoutPanel1.Controls.Add(b);
             }
-
-
         }
 
-        async void MyButtonHandler(object sender, EventArgs e, IEnumerable<IReceiver> devices)
+        private async void MyButtonHandler(object sender, EventArgs e, IList<ChromecastReceiver> devices)
         {
-
-            var sender2 = new Sender();
-
-            IReceiver device = null;
-            foreach (var x in devices)
+            var selectedName = (sender as Button)?.Text;
+            if (string.IsNullOrWhiteSpace(selectedName))
             {
-                if (x.FriendlyName == (sender as Button).Text)
-                {
-                    device = x;
-                }
+                return;
             }
 
-            if (device != null)
+            var device = devices.FirstOrDefault(d => string.Equals(d.Name, selectedName, StringComparison.Ordinal));
+            if (device == null)
             {
-                //Connect to the device
-                await sender2.ConnectAsync(device);
-                //Launch the media reciever app
-                var mediaChannel = sender2.GetChannel<IMediaChannel>();
-                await sender2.LaunchAsync(mediaChannel);
-
-                //ChromecastSender = sender2;
-                ChromecastMediaChannel = mediaChannel;
-
-                this.FormClosing -= ChromecastSelection_FormClosing;
-                this.Close();
+                return;
             }
 
+            var client = new ChromecastClient();
+            await client.ConnectChromecast(device);
+
+            // Default Media Receiver
+            await client.LaunchApplicationAsync("CC1AD845");
+
+            ChromecastClient = client;
+
+            this.FormClosing -= ChromecastSelection_FormClosing;
+            this.Close();
         }
-
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -120,7 +107,7 @@ namespace MusicBeePlugin
         {
             int d = 0;
 
-            // Counting the perceptive luminance - human eye favors green color... 
+            // Counting the perceptive luminance - human eye favors green color...
             double luminance = (0.299 * color.R + 0.587 * color.G + 0.114 * color.B) / 255;
 
             if (luminance > 0.5)
@@ -131,13 +118,10 @@ namespace MusicBeePlugin
             return Color.FromArgb(d, d, d);
         }
 
-
         private void ChromecastSelection_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.FormClosing -= ChromecastSelection_FormClosing;
             this.Close();
         }
-
-
     }
 }
