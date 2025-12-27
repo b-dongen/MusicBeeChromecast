@@ -1,16 +1,12 @@
-﻿using System;
-using System.Diagnostics;
-using System.Net;
-using System.Net.Sockets;
-using System.Threading.Tasks;
-using System.Windows;
-using Microsoft.Owin;
-using Microsoft.Owin.FileSystems;
-using Microsoft.Owin.Host.HttpListener;
+﻿using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.Hosting;
 using Microsoft.Owin.StaticFiles;
 using Microsoft.Owin.StaticFiles.ContentTypes;
 using Owin;
+using System;
+using System.Diagnostics;
+using System.Net;
+using System.Windows;
 
 
 namespace MusicBeePlugin

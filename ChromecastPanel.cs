@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Sharpcaster;
+using Sharpcaster.Models;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Sharpcaster;
-using Sharpcaster.Models;
 
 namespace MusicBeePlugin
 {
@@ -17,21 +16,40 @@ namespace MusicBeePlugin
         public ChromecastClient ChromecastClient { get; set; } = null;
         public bool Disconnect { get; set; } = false;
 
+        internal Func<TimeSpan, Task<IList<ChromecastReceiver>>> ReceiverDiscovery { get; set; }
+
         public ChromecastPanel(Color color)
         {
             backgroundColor = color;
+            ReceiverDiscovery = async timeout =>
+            {
+                var locator = new ChromecastLocator();
+                var found = await locator.FindReceiversAsync(timeout);
+                return (IList<ChromecastReceiver>)(found?.ToList() ?? new List<ChromecastReceiver>());
+            };
             InitializeComponent();
         }
 
         private async void ChromecastPanel_Load(object sender, EventArgs e)
         {
             var contrastColor = ContrastColor(backgroundColor);
-            this.BackColor = backgroundColor;
-            this.closeText.ForeColor = contrastColor;
-            this.devicesText.ForeColor = contrastColor;
+            BackColor = backgroundColor;
+            closeText.ForeColor = contrastColor;
+            devicesText.ForeColor = contrastColor;
 
-            var locator = new ChromecastLocator();
-            var receivers = (await locator.FindReceiversAsync(TimeSpan.FromSeconds(5)))?.ToList() ?? new List<ChromecastReceiver>();
+            var receivers = (await ReceiverDiscovery(TimeSpan.FromSeconds(5)))?.ToList() ?? new List<ChromecastReceiver>();
+
+            InitializeDeviceButtons(receivers);
+        }
+
+        internal void InitializeDeviceButtons(IList<ChromecastReceiver> receivers)
+        {
+            if (receivers == null)
+            {
+                receivers = new List<ChromecastReceiver>();
+            }
+
+            flowLayoutPanel1.Controls.Clear();
 
             if (receivers.Count == 0)
             {
@@ -62,7 +80,7 @@ namespace MusicBeePlugin
                     Width = 200,
                 };
 
-                b.Click += new EventHandler((s, e2) => MyButtonHandler(s, e2, receivers));
+                b.Click += async (s, e2) => await MyButtonHandler(s, e2, receivers);
 
                 b.FlatAppearance.MouseOverBackColor = Color.Transparent;
                 b.FlatAppearance.BorderColor = backgroundColor;
@@ -71,7 +89,7 @@ namespace MusicBeePlugin
             }
         }
 
-        private async void MyButtonHandler(object sender, EventArgs e, IList<ChromecastReceiver> devices)
+        private async Task MyButtonHandler(object sender, EventArgs e, IList<ChromecastReceiver> devices)
         {
             var selectedName = (sender as Button)?.Text;
             if (string.IsNullOrWhiteSpace(selectedName))

@@ -1,7 +1,17 @@
 # MusicBeeChromecast
 Adds Cast functionality to MusicBee
 
-**Disclaimer:** Just a fork, don't expect any usefull changes.
+**Trying to fix** 
+# updates
+1. Converted to use SharpCaster library (https://github.com/Tapanila/SharpCaster)
+
+**Major isse remaining**
+Keep getting error when trynig to cast. Failed to find a way around this.
+```
+FileNotFoundException: Could not load file or assembly 
+'System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51'
+or one of its dependencies. The system cannot find the file specified.
+```
 
 ![UI](https://raw.githubusercontent.com/TroyFernandes/MusicBeeChromecast/master/Images/UI.jpg)
 
@@ -29,7 +39,38 @@ The ``MBCCRules.exe`` requires admin privileges, creates an inbound firewall rul
 4. Click save, and restart musicbee
 5. Right-click the toolbar (or on the "Arrange Panels") icon and click "Configure Toolbar"
 6. Add a new Toolbar button with an icon of your choosing, or simply type in "Chromecast" for example. Under the "Command" dropdown, choose "Chromecast". Then click update.
+7. Add the following settings to MusicBee.exe.config in section <runtime>
+```xml
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="Microsoft.Extensions.Logging.Abstractions" publicKeyToken="adb9793829ddae60" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-9.0.0.8" newVersion="9.0.0.8" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Microsoft.Extensions.DependencyInjection.Abstractions" publicKeyToken="adb9793829ddae60" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-9.0.0.8" newVersion="9.0.0.8" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Microsoft.Extensions.DependencyInjection" publicKeyToken="adb9793829ddae60" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-9.0.0.8" newVersion="9.0.0.8" />
+      </dependentAssembly>
 
+      <dependentAssembly>
+        <assemblyIdentity name="System.Text.Json" publicKeyToken="cc7b13ffcd2ddd51" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-9.0.0.8" newVersion="9.0.0.8" />
+      </dependentAssembly>
+<!--
+      <dependentAssembly>
+        <assemblyIdentity name="System.Memory" publicKeyToken="cc7b13ffcd2ddd51" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-4.6.3.0" newVersion="4.6.3.0" />
+      </dependentAssembly>
+-->
+      <dependentAssembly>
+        <assemblyIdentity name="System.Runtime.CompilerServices.Unsafe" publicKeyToken="b03f5f7f11d50a3a" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-6.0.0.0" newVersion="6.0.0.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+```
 # How to Use
 The plugin will find all available devices/speaker groups you've created. To use the plugin, click the Toolbar Icon/text you created in the previous steps, a window with all the available devices will pop up. Simply choose one you want to connect to and it should connect successfully. You can go to Tools -> MB Chromecast -> Check status, to see if everything is running. 
 

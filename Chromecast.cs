@@ -1,26 +1,23 @@
-﻿using System;
-using System.Windows.Forms;
-using System.IO;
-using System.Diagnostics;
+﻿using FlacLibSharp;
 using Nito.AsyncEx.Synchronous;
+using Sharpcaster;
+using Sharpcaster.Models.Media;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
-using System.Web;
+using System.IO;
+using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
-using System.Linq;
-using System.Xml;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Threading;
-using NetFwTypeLib;
+using System.Threading.Tasks;
 using System.Timers;
-using System.Reflection;
-using System.Net.NetworkInformation;
-using FlacLibSharp;
-using Sharpcaster;
-using Sharpcaster.Models;
-using Sharpcaster.Models.Media;
+using System.Web;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace MusicBeePlugin
 {
@@ -559,9 +556,15 @@ namespace MusicBeePlugin
 
         private void RevertSettings()
         {
-            if (mbApiInterface.Player_GetMute())
+            try
             {
-                mbApiInterface.Player_SetMute(false);
+                if (mbApiInterface.Player_GetMute())
+                {
+                    mbApiInterface.Player_SetMute(false);
+                }
+            }
+            catch
+            {
             }
         }
 
@@ -576,7 +579,11 @@ namespace MusicBeePlugin
                 chromecastClient.MediaChannel.StatusChanged += (s, status) => SynchronizeFromChromecast(status);
             }
 
-            chromecastClient.Disconnected += ChromecastDisconnect;
+            if (chromecastClient != null)
+            {
+                chromecastClient.Disconnected += ChromecastDisconnect;
+            }
+
             return true;
         }
 
@@ -643,17 +650,29 @@ namespace MusicBeePlugin
 
         public void PauseIfPlaying()
         {
-            if (mbApiInterface.Player_GetPlayState() == PlayState.Playing)
+            try
             {
-                mbApiInterface.Player_PlayPause();
+                if (mbApiInterface.Player_GetPlayState() == PlayState.Playing)
+                {
+                    mbApiInterface.Player_PlayPause();
+                }
+            }
+            catch
+            {
             }
         }
 
         public void StopIfPlaying()
         {
-            if (mbApiInterface.Player_GetPlayState() == PlayState.Playing)
+            try
             {
-                mbApiInterface.Player_Stop();
+                if (mbApiInterface.Player_GetPlayState() == PlayState.Playing)
+                {
+                    mbApiInterface.Player_Stop();
+                }
+            }
+            catch
+            {
             }
         }
 
